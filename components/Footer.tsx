@@ -1,11 +1,9 @@
-import React from "react";
-
 const Footer = () => {
   return (
     <footer className="bg-white border-t">
       <div className="mx-auto py-10">
-        <p className="text-center text-xs text-black">
-          &copy; 2024 store, Inc, All rights reserved
+        <p className="text-center text-xs">
+          &copy; 2024 Store, Inc. All Rights Reserved
         </p>
       </div>
     </footer>
