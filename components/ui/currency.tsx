@@ -8,9 +8,10 @@ export const formatter = new Intl.NumberFormat("en-US", {
 
 type Props = {
   value?: string | number;
+  className?: string;
 };
 
-const Currency = ({ value }: Props) => {
+const Currency = ({ value, className }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -19,7 +20,11 @@ const Currency = ({ value }: Props) => {
 
   if (!isMounted) return null;
 
-  return <div className="font-semibold">{formatter.format(Number(value))}</div>;
+  return (
+    <div className={`font-semibold ${className}`}>
+      {formatter.format(Number(value))}
+    </div>
+  );
 };
 
 export default Currency;

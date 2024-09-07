@@ -1,19 +1,29 @@
 "use client";
-
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Color, Size } from "@/types";
-
-import qs from "query-string";
 import { useRouter, useSearchParams } from "next/navigation";
-import Button from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import qs from "query-string";
 
 interface FilterProps {
   data: (Size | Color)[];
   name: string;
   valueKey: string;
+  activeFilter?: string | null;
+  setActiveFilter?: React.Dispatch<React.SetStateAction<string | null>>;
+  className?: string;
 }
 
-const Filter: React.FC<FilterProps> = ({ data, name, valueKey }) => {
+const Filters = ({
+  valueKey,
+  name,
+  data,
+  activeFilter,
+  setActiveFilter,
+  className,
+}: FilterProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -38,30 +48,50 @@ const Filter: React.FC<FilterProps> = ({ data, name, valueKey }) => {
       { skipNull: true }
     );
 
-    router.push(url);
+    router.push(url, { scroll: false });
+    setActiveFilter?.(id);
   };
 
   return (
-    <div className="mb-8">
-      <h3 className="text-lg font-semibold">{name}</h3>
-      <hr className="my-4" />
-      <div className="flex flex-wrap gap-2">
-        {data.map((filter) => (
-          <div key={filter.id} className="flex items-center">
-            <Button
-              className={cn(
-                "rounded-xl text-sm text-grey-800 p-2 bg-white border border-grey-300",
-                selectedValue === filter.id && "bg-black text-white"
-              )}
-              onClick={() => onClick(filter.id)}
-            >
-              {filter.name}
-            </Button>
-          </div>
-        ))}
-      </div>
+    <div className={`bg-gray-900 rounded-lg p-4 ${className}`}>
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex justify-between items-center text-white"
+      >
+        <span className="text-lg font-semibold">{name}</span>
+        {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+      </motion.button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mt-4 space-y-2"
+          >
+            {data.map((item) => (
+              <motion.button
+                key={item.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => onClick(item.id)}
+                className={`w-full py-2 px-4 rounded-lg text-left ${
+                  selectedValue === item.id
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-800 text-gray-300"
+                }`}
+              >
+                {item.name}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default Filter;
+export default Filters;

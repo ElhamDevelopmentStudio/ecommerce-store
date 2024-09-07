@@ -38,7 +38,12 @@ const MobileFilters = ({ sizes, colors }: Props) => {
               <IconButton icon={<X size={15} />} onClick={onClose} />
             </div>
             <div className="p-4">
-              <Filter valueKey="sizeId" name="Sizes" data={sizes} />
+              <Filter
+                valueKey="sizeId"
+                name="Sizes"
+                data={sizes}
+                className="mb-4"
+              />
               <Filter valueKey="colorId" name="Colors" data={colors} />
             </div>
           </Dialog.Panel>
