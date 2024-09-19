@@ -73,7 +73,7 @@ const ProductCard = ({ data }: { data: Product }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="bg-gray-900 -z-10 rounded-2xl overflow-hidden shadow-2xl cursor-pointer perspective-1000"
+      className="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl cursor-pointer perspective-1000"
     >
       <div className="relative aspect-square">
         <Image

@@ -6,6 +6,8 @@ import { Color, Size } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
 
+// TODO: Add a filter for the price range
+
 interface FilterProps {
   data: (Size | Color)[];
   name: string;
