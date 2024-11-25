@@ -3,7 +3,7 @@ import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/useCart";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -11,6 +11,7 @@ type Props = {};
 
 const Summery = (props: Props) => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
 
@@ -18,12 +19,13 @@ const Summery = (props: Props) => {
     if (searchParams.get("success")) {
       toast.success("Payment Completed");
       removeAll();
+      router.push("/");
     }
 
     if (searchParams.get("canceled")) {
       toast.error("Something went wrong!");
     }
-  }, [searchParams, removeAll]);
+  }, [searchParams, removeAll, router]);
 
   const totalPrice = items.reduce((total, item) => {
     return total + Number(item.price);

@@ -11,7 +11,7 @@ type Props = {
 const Billboard = ({ data }: Props) => {
   const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }));
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = e;
     set({
       xy: [clientX - window.innerWidth / 2, clientY - window.innerHeight / 2],
